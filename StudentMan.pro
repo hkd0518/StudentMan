@@ -21,14 +21,7 @@ SOURCES += main.cpp\
     infowidget.cpp \
     logindialog.cpp \
     user.cpp \
-    timetablesql.cpp \
-    teachersql.cpp \
-    studentsql.cpp \
-    scoresql.cpp \
-    coursesql.cpp \
     chgpwddialog.cpp \
-    teachercoursesql.cpp \
-    studentcoursesql.cpp \
     sql/timetablesql.cpp \
     sql/teachersql.cpp \
     sql/teachercoursesql.cpp \
@@ -47,14 +40,7 @@ HEADERS  += mainwindow.h \
     logindialog.h \
     user.h \
     utility.h \
-    timetablesql.h \
-    teachersql.h \
-    studentsql.h \
-    scoresql.h \
-    coursesql.h \
     chgpwddialog.h \
-    teachercoursesql.h \
-    studentcoursesql.h \
     sql/timetablesql.h \
     sql/teachersql.h \
     sql/teachercoursesql.h \

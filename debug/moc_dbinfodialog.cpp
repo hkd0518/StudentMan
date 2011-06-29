@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'dbinfodialog.h'
 **
-** Created: Mon Jun 27 22:02:16 2011
+** Created: Wed Jun 29 21:43:00 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!

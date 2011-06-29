@@ -11,6 +11,7 @@
 #include "administrator.h"
 
 #include <QAction>
+#include <QDebug>
 #include <QTreeWidget>
 #include <QMessageBox>
 #include <QStandardItemModel>
@@ -36,12 +37,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionLogout, SIGNAL(triggered()), this, SLOT(reset()));
 
     connect(ui->infoWidget, SIGNAL(loadProfile()), this, SLOT(loadProfile()));
+    connect(ui->infoWidget, SIGNAL(loadScore()), this, SLOT(loadScore()));
     connect(ui->infoWidget, SIGNAL(chgPwd()), this, SLOT(changePwd()));
 
     dbInfo.hostName = "localhost";
     dbInfo.DBName = "Handin";
     dbInfo.userName = "hkd";
     dbInfo.password = "19900518";
+
+    login();
 
 }
 
@@ -73,27 +77,30 @@ void MainWindow::login()
     {
         int status;
 
-        LoginDialog *loginDlg = new LoginDialog;
-        loginDlg->setWindowIcon(QIcon(":/resources/icon/login.png"));
-        status = loginDlg->exec();
+//        LoginDialog *loginDlg = new LoginDialog;
+//        loginDlg->setWindowIcon(QIcon(":/resources/icon/login.png"));
+//        status = loginDlg->exec();
 
-        if (loginDlg->isStuChecked())
-            user = new Student(dbInfo);
-        else if (loginDlg->isTeaChecked())
-                user = new Teacher(dbInfo);
-        else if (loginDlg->isAdmChecked())
-                user = new Administrator(dbInfo);
-        else
-        {
-            if (status == QDialog::Accepted)
-                QMessageBox::warning(this, tr("ERROR"), tr("ERROR occurs while creating user object!"));
-            return;
-        }
+        user = new Student(dbInfo);
+//        if (loginDlg->isStuChecked())
+//            user = new Student(dbInfo);
+//        else if (loginDlg->isTeaChecked())
+//                user = new Teacher(dbInfo);
+//        else if (loginDlg->isAdmChecked())
+//                user = new Administrator(dbInfo);
+//        else
+//        {
+//            if (status == QDialog::Accepted)
+//                QMessageBox::warning(this, tr("ERROR"), tr("ERROR occurs while creating user object!"));
+//            return;
+//        }
 
-        if (user->login(loginDlg->getLoginNumber(), loginDlg->getPassword(), dbInfo))
-            initInfo(); //初始化界面
+        user->login("08382005", "123", dbInfo);
+        initInfo();
+//        if (user->login(loginDlg->getLoginNumber(), loginDlg->getPassword(), dbInfo))
+//            initInfo(); //初始化界面
 
-        delete loginDlg;
+        //delete loginDlg;
     }
     else
     {
@@ -166,27 +173,36 @@ void MainWindow::loadRecord()
 
 void MainWindow::loadScore()
 {
-    QStandardItemModel *model = new QStandardItemModel();
+    //QMessageBox::information(0, "wer", "wer");
 
-    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Course Name"));
-    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Middleterm Score"));
-    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Final Score"));
+    QStandardItemModel *model = new QStandardItemModel();
 
     QList< QList<QStandardItem *> > list = user->scoreDetail();
 
     for (int i = 0; i < list.count(); i++)
     {
         model->insertRow(i, list.at(i));
+        qDebug() << list.at(i).at(1)->text();
     }
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Course Name"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Middleterm Score"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Final Score"));
 
     for (int i = 0; i < model->rowCount(); i++)
         for (int j = 0; j < model->columnCount(); j++)
             model->item(i,j)->setEditable(false);
 
-    ui->tableView->setRowHeight(0, 150);
+    ui->tableView->setModel(model);
+
+    ui->tableView->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
+    ui->tableView->resizeColumnToContents(1);
+    ui->tableView->resizeColumnToContents(2);
+//    ui->tableView->setColumnWidth(2, 100);
+//    ui->tableView->setColumnWidth(3, 100);
     ui->tableView->verticalHeader()->hide();
     ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
-    ui->tableView->setModel(model);
+
 }
 
 void MainWindow::loadStatic()

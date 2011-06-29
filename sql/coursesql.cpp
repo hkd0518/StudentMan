@@ -10,15 +10,19 @@
 #include <QSqlError>
 
 coursesql::coursesql(DBInfo dbInfo){
+
+    this->dbInfo = dbInfo;
+
+}
+
+bool coursesql::connectToDB()
+{
     db = QSqlDatabase::addDatabase("QODBC");
     db.setHostName(dbInfo.hostName);
     db.setDatabaseName(dbInfo.DBName);
     db.setUserName(dbInfo.userName);
     db.setPassword(dbInfo.password);
-}
 
-bool coursesql::connectToDB()
-{
     if (db.open())
     {
         qDebug() << "Connect to DB Successfully!";
@@ -26,7 +30,7 @@ bool coursesql::connectToDB()
     }
     else
     {
-        QMessageBox::warning(0, QObject::tr("Database"), db.lastError().text());
+        QMessageBox::warning(0, QObject::tr("Database"), db.lastError().text()+"coursesql");
         return false;
     }
 }

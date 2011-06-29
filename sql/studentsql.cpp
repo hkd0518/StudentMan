@@ -14,15 +14,25 @@
 
 studentsql::studentsql(DBInfo dbInfo){
 
+    this->dbInfo = dbInfo;
+}
+
+bool studentsql::connectToDB()
+{
+
     db = QSqlDatabase::addDatabase("QODBC");
     db.setHostName(dbInfo.hostName);
     db.setDatabaseName(dbInfo.DBName);
     db.setUserName(dbInfo.userName);
     db.setPassword(dbInfo.password);
-}
+//    qDebug() << "ODBC driver valid?" << db.isValid();
 
-bool studentsql::connectToDB()
-{
+//        qDebug() << db.hostName();
+//        qDebug() << db.databaseName();
+//        qDebug() << db.userName();
+//        qDebug() << db.password();
+//        qDebug() << db.driverName();
+
     if (db.open())
     {
         qDebug() << "Connect to DB Successfully!";
@@ -30,7 +40,7 @@ bool studentsql::connectToDB()
     }
     else
     {
-        QMessageBox::warning(0, QObject::tr("Database"), db.lastError().text());
+        QMessageBox::warning(0, QObject::tr("Database"), db.lastError().text()+" studentsql");
         return false;
     }
 }

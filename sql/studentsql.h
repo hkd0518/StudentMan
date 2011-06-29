@@ -60,6 +60,7 @@ public:
     bool connectToDB();
     void closeConnection();
 private:
+    DBInfo dbInfo;
     QSqlDatabase db;
 };
 

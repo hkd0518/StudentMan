@@ -11,15 +11,19 @@
 #include <QSqlDatabase>
 
 studentCourseSql::studentCourseSql(DBInfo dbInfo){
+
+    this->dbInfo = dbInfo;
+
+}
+
+bool studentCourseSql::connectToDB()
+{
     db = QSqlDatabase::addDatabase("QODBC");
     db.setHostName(dbInfo.hostName);
     db.setDatabaseName(dbInfo.DBName);
     db.setUserName(dbInfo.userName);
     db.setPassword(dbInfo.password);
-}
 
-bool studentCourseSql::connectToDB()
-{
     if (db.open())
     {
         qDebug() << "Connect to DB Successfully!";
@@ -27,7 +31,7 @@ bool studentCourseSql::connectToDB()
     }
     else
     {
-        QMessageBox::warning(0, QObject::tr("Database"), db.lastError().text());
+        QMessageBox::warning(0, QObject::tr("Database"), db.lastError().text()+"studentscoursesql");
         return false;
     }
 }

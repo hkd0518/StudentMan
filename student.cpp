@@ -8,6 +8,7 @@
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QMessageBox>
+#include <QDebug>
 
 #include "student.h"
 #include "infowidget.h"
@@ -19,6 +20,7 @@ Student::Student(DBInfo dbInfo)
 
     sql = new studentsql(dbInfo);   //初始化实体类指针
     scSql = new studentCourseSql(dbInfo);
+    cSql = new coursesql(dbInfo);
 }
 
 Student::~Student()
@@ -227,19 +229,26 @@ void Student::loadScore(QTableView * tableView)
 
 QList< QList<QStandardItem *> > Student::scoreDetail()
 {
+    qDebug() << "scoreDetail";
+
     scSql->connectToDB();
     cSql->connectToDB();
 
     QList< QList<QStandardItem *> > list;
-    int num = scSql->getAvailCourseNum(userInfo.number);
+    int num = scSql->getTableNum(userInfo.number);
+    //qDebug() << num;
 
     for (int i = 1; i <= num; i++)
     {
         QList<QStandardItem *> tmp;
 
-        tmp.append(new QStandardItem(cSql->getName(scSql->getAvailCourseId(i, userInfo.number))));
-        tmp.append(new QStandardItem(scSql->getMidScoreFromTable(i, userInfo.number)));
-        tmp.append(new QStandardItem(scSql->getFinalScoreFromTable(i, userInfo.number)));
+        tmp.append(new QStandardItem(cSql->getName(scSql->getCourseIdFromTable(i, userInfo.number))));
+        //qDebug() << cSql->getName(scSql->getCourseIdFromTable(i, userInfo.number));
+        tmp.append(new QStandardItem(QString().setNum(scSql->getMidScoreFromTable(i, userInfo.number))));
+        //qDebug() << scSql->getMidScoreFromTable(i, userInfo.number);
+        //qDebug() << tmp.at(1)->text();
+        tmp.append(new QStandardItem(QString().setNum(scSql->getFinalScoreFromTable(i, userInfo.number))));
+        //qDebug() << scSql->getFinalScoreFromTable(i, userInfo.number);
 
         list.append(tmp);
     }

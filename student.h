@@ -3,9 +3,9 @@
 
 #include "user.h"
 #include "utility.h"
-#include "studentsql.h"
-#include "studentcoursesql.h"
-#include "coursesql.h"
+#include "sql/studentsql.h"
+#include "sql/studentcoursesql.h"
+#include "sql/coursesql.h"
 
 #include <QList>
 

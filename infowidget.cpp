@@ -89,4 +89,6 @@ void InfoWidget::dispatchView(QTreeWidgetItem *item, int index)
         emit loadProfile();
     else if (item->text(0) == tr("Change Password"))
         emit chgPwd();
+    else if (item->text(0) == tr("View Results"))
+        emit loadScore();
 }
