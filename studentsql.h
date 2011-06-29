@@ -1,6 +1,8 @@
 #ifndef STUDENTSQL_H
 #define STUDENTSQL_H
 
+#include <QSqlDatabase>
+
 class QString;
 class QPixmap;
 
@@ -52,6 +54,12 @@ public:
 
     int getStudentNum();
     QString getIdFromNum(int num);
+
+    bool connectToDB();
+    void closeConnection();
+
+private:
+    QSqlDatabase db;
 };
 
 #endif // STUDENTSQL_H

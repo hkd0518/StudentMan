@@ -1,12 +1,41 @@
-#include <QString>
+
 #include "studentsql.h"
+#include "utility.h"
+
+#include <QString>
 #include <QSqlQuery>
 #include <QVariant>
 #include <QString>
 #include <QPixmap>
+#include <QMessageBox>
+#include <QSqlDatabase>
 
-studentsql::studentsql(){
+studentsql::studentsql(DBInfo dbInfo){
 
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setHostName(dbInfo.hostName);
+    db.setDatabaseName(dbInfo.DBName);
+    db.setUserName(dbInfo.userName);
+    db.setPassword(dbInfo.password);
+}
+
+bool studentsql::connectToDB()
+{
+    if (db.open())
+    {
+        qDebug() << "Connect to DB Successfully!";
+        return true;
+    }
+    else
+    {
+        QMessageBox::warning(0, QObject::tr("Database"), QObject::tr("Error occurs while connect to DB!"));
+        return false;
+    }
+}
+
+void studentsql::closeConnection()
+{
+    db.close();
 }
 
 QString studentsql::getAddr(QString id){
