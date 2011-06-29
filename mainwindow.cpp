@@ -130,6 +130,8 @@ void MainWindow::loadPlan()
 
 void MainWindow::loadProfile()
 {
+    //ui->tableView->reset();
+
     QStandardItemModel *model = new QStandardItemModel();
 
     connect(model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(saveProfileChange(QStandardItem*)));
@@ -164,7 +166,27 @@ void MainWindow::loadRecord()
 
 void MainWindow::loadScore()
 {
+    QStandardItemModel *model = new QStandardItemModel();
 
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Course Name"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Middleterm Score"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Final Score"));
+
+    QList< QList<QStandardItem *> > list = user->scoreDetail();
+
+    for (int i = 0; i < list.count(); i++)
+    {
+        model->insertRow(i, list.at(i));
+    }
+
+    for (int i = 0; i < model->rowCount(); i++)
+        for (int j = 0; j < model->columnCount(); j++)
+            model->item(i,j)->setEditable(false);
+
+    ui->tableView->setRowHeight(0, 150);
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->tableView->setModel(model);
 }
 
 void MainWindow::loadStatic()

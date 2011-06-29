@@ -58,6 +58,11 @@ void User::loadScore(QTableView * tableView)
 
 }
 
+QList< QList<QStandardItem *> > User::scoreDetail()
+{
+
+}
+
 void User::createList()
 {
 

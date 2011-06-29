@@ -18,6 +18,7 @@ Student::Student(DBInfo dbInfo)
     createList();
 
     sql = new studentsql(dbInfo);   //初始化实体类指针
+    scSql = new studentCourseSql(dbInfo);
 }
 
 Student::~Student()
@@ -224,6 +225,30 @@ void Student::loadScore(QTableView * tableView)
 
 }
 
+QList< QList<QStandardItem *> > Student::scoreDetail()
+{
+    scSql->connectToDB();
+    cSql->connectToDB();
+
+    QList< QList<QStandardItem *> > list;
+    int num = scSql->getAvailCourseNum(userInfo.number);
+
+    for (int i = 1; i <= num; i++)
+    {
+        QList<QStandardItem *> tmp;
+
+        tmp.append(new QStandardItem(cSql->getName(scSql->getAvailCourseId(i, userInfo.number))));
+        tmp.append(new QStandardItem(scSql->getMidScoreFromTable(i, userInfo.number)));
+        tmp.append(new QStandardItem(scSql->getFinalScoreFromTable(i, userInfo.number)));
+
+        list.append(tmp);
+    }
+
+    cSql->closeConnection();
+    scSql->closeConnection();
+
+    return list;
+}
 
 void Student::chgPwd(QString oldPwd, QString newPwd)
 {

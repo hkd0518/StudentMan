@@ -25,7 +25,10 @@ public:
 
     virtual void loadCurriculumSchedule(QTableView*);   //课程表
     virtual void loadElective(QTableView*); //选课
+
     virtual void loadScore(QTableView*);    //成绩查询
+    virtual QList< QList<QStandardItem *> > scoreDetail();
+
     virtual void loadProfile(QTableView*);  //个人信息
 
     virtual void createList();   //构造功能表

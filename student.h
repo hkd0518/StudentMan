@@ -4,6 +4,8 @@
 #include "user.h"
 #include "utility.h"
 #include "studentsql.h"
+#include "studentcoursesql.h"
+#include "coursesql.h"
 
 #include <QList>
 
@@ -27,7 +29,10 @@ public:
 
     virtual void loadCurriculumSchedule(QTableView*);   //课程表
     virtual void loadElective(QTableView*); //选课
+
     virtual void loadScore(QTableView*);    //成绩查询
+    virtual QList< QList<QStandardItem *> > scoreDetail();
+
     virtual void loadProfile(QTableView*);  //个人信息
 
     virtual QList<QStandardItem *> profileHeader();    //个人信息属性列表
@@ -45,6 +50,8 @@ private:
     QTreeWidget *featureList;
     UserInfo userInfo;
     studentsql *sql;
+    studentCourseSql *scSql;
+    coursesql *cSql;
 
 };
 
