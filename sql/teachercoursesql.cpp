@@ -2,9 +2,39 @@
 #include <QSqlQuery>
 #include <QVariant>
 #include <QString>
+#include <QDebug>
+#include <QMessageBox>
+#include <QSqlError>
 
-teacherCourseSql::teacherCourseSql(){
+teacherCourseSql::teacherCourseSql(DBInfo dbInfo){
 
+    this->dbInfo = dbInfo;
+}
+
+bool teacherCourseSql::connectToDB()
+{
+
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setHostName(dbInfo.hostName);
+    db.setDatabaseName(dbInfo.DBName);
+    db.setUserName(dbInfo.userName);
+    db.setPassword(dbInfo.password);
+
+    if (db.open())
+    {
+        qDebug() << "Connect to DB Successfully!";
+        return true;
+    }
+    else
+    {
+        QMessageBox::warning(0, QObject::tr("Database"), db.lastError().text()+" studentsql");
+        return false;
+    }
+}
+
+void teacherCourseSql::closeConnection()
+{
+    db.close();
 }
 
 QString teacherCourseSql::getCourseAddr(QString teacherId, QString courseId){

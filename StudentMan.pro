@@ -22,13 +22,11 @@ SOURCES += main.cpp\
     logindialog.cpp \
     user.cpp \
     chgpwddialog.cpp \
-    sql/timetablesql.cpp \
     sql/teachersql.cpp \
     sql/teachercoursesql.cpp \
     sql/studentsql.cpp \
     sql/studentcoursesql.cpp \
     sql/sql.cpp \
-    sql/scoresql.cpp \
     sql/coursesql.cpp
 
 HEADERS  += mainwindow.h \
@@ -41,13 +39,11 @@ HEADERS  += mainwindow.h \
     user.h \
     utility.h \
     chgpwddialog.h \
-    sql/timetablesql.h \
     sql/teachersql.h \
     sql/teachercoursesql.h \
     sql/studentsql.h \
     sql/studentcoursesql.h \
     sql/sql.h \
-    sql/scoresql.h \
     sql/coursesql.h
 
 FORMS    += mainwindow.ui \

@@ -21,6 +21,7 @@ Student::Student(DBInfo dbInfo)
     sql = new studentsql(dbInfo);   //初始化实体类指针
     scSql = new studentCourseSql(dbInfo);
     cSql = new coursesql(dbInfo);
+    tcSql = new teacherCourseSql(dbInfo);
 }
 
 Student::~Student()
@@ -99,6 +100,84 @@ bool Student::login(QString loginNumber, QString password, DBInfo dbInfo)
 
 void Student::loadCurriculumSchedule(QTableView * tableView)
 {
+}
+
+QStandardItem*** Student::scheduleDetail()
+{
+    scSql->connectToDB();
+
+    QStandardItem*** list;
+    list = new QStandardItem**[7];
+    for (int i = 0; i < 7; i++)
+        list[i] = new QStandardItem*[15];
+
+    int num = scSql->getTableNum(userInfo.number);
+    QString name,time,addr;
+    QStringList timeDetail;
+
+    for (int i = 0; i < 7; i++)
+        for (int j = 0; j < 15; j++)
+            list[i][j] = new QStandardItem();
+
+    for (int i = 1; i <= num; i++)
+    {
+        name = cSql->getName(scSql->getCourseIdFromTable(i, userInfo.number));
+        time = tcSql->getTimetable(scSql->getTeacherIdFromTable(i, userInfo.number),
+                                   scSql->getCourseIdFromTable(i, userInfo.number));
+        addr = tcSql->getCourseAddr(scSql->getTeacherIdFromTable(i, userInfo.number),
+                                    scSql->getCourseIdFromTable(i, userInfo.number));
+
+        qDebug() << name+" "+addr+" "+time;
+
+        timeDetail = time.split(';');
+        for (int j = 0; j < timeDetail.count() - 1; j++)
+        {
+            list[timeDetail.at(j).split(',').at(0).toInt() - 1]
+                    [timeDetail.at(j).split(',').at(1).toInt() - 1]->setText(name+" "+addr.split(';').at(j));
+            qDebug() << name+" "+addr.split(';').at(j);
+        }
+    }
+
+    scSql->closeConnection();
+
+    return list;
+}
+
+bool** Student::scheduleMatrix()
+{
+    scSql->connectToDB();
+
+    bool **list;
+    list = new bool*[7];
+    for (int i = 0; i < 7; i++)
+        list[i] = new bool[15];
+
+    int num = scSql->getTableNum(userInfo.number);
+    QString time;
+    QStringList timeDetail, courseDetail;
+
+    for (int i = 0; i < 7; i++)
+        for (int j = 0; j < 15; j++)
+            list[i][j] = false;
+
+    for (int i = 1; i <= num; i++)
+    {
+
+        time = tcSql->getTimetable(scSql->getTeacherIdFromTable(i, userInfo.number),
+                                   scSql->getCourseIdFromTable(i, userInfo.number));
+
+        timeDetail = time.split(';');
+        for (int j = 0; j < timeDetail.count() - 1; j++)
+        {
+            courseDetail = timeDetail.at(j).split(',');
+            for (int k = courseDetail.at(1).toInt(); k <= courseDetail.at(2).toInt(); k++)
+                list[courseDetail.at(0).toInt() - 1][k - 1] = true;
+        }
+    }
+
+    scSql->closeConnection();
+
+    return list;
 }
 
 void Student::loadElective(QTableView * tableView)
@@ -232,7 +311,6 @@ QList< QList<QStandardItem *> > Student::scoreDetail()
     qDebug() << "scoreDetail";
 
     scSql->connectToDB();
-    cSql->connectToDB();
 
     QList< QList<QStandardItem *> > list;
     int num = scSql->getTableNum(userInfo.number);
@@ -253,7 +331,6 @@ QList< QList<QStandardItem *> > Student::scoreDetail()
         list.append(tmp);
     }
 
-    cSql->closeConnection();
     scSql->closeConnection();
 
     return list;

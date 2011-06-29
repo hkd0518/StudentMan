@@ -9,13 +9,11 @@ INPUT(
 ./release\logindialog.o
 ./release\user.o
 ./release\chgpwddialog.o
-./release\timetablesql.o
 ./release\teachersql.o
 ./release\teachercoursesql.o
 ./release\studentsql.o
 ./release\studentcoursesql.o
 ./release\sql.o
-./release\scoresql.o
 ./release\coursesql.o
 ./release\moc_mainwindow.o
 ./release\moc_dbinfodialog.o

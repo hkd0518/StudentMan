@@ -23,6 +23,15 @@ void User::loadCurriculumSchedule(QTableView * tableView)
 {
 }
 
+QStandardItem*** User::scheduleDetail()
+{
+}
+
+bool** User::scheduleMatrix()
+{
+
+}
+
 void User::loadElective(QTableView * tableView)
 {
 

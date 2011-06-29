@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->infoWidget, SIGNAL(loadProfile()), this, SLOT(loadProfile()));
     connect(ui->infoWidget, SIGNAL(loadScore()), this, SLOT(loadScore()));
+    connect(ui->infoWidget, SIGNAL(loadCurriculumSchedule()), this, SLOT(loadCurriculumSchedule()));
+    connect(ui->infoWidget, SIGNAL(loadElective()), this, SLOT(loadElective()));
     connect(ui->infoWidget, SIGNAL(chgPwd()), this, SLOT(changePwd()));
 
     dbInfo.hostName = "localhost";
@@ -122,12 +124,66 @@ void MainWindow::reset()
 
 void MainWindow::loadCurriculumSchedule()
 {
+    //QMessageBox::information(0, "User", "Schedule");
+
+    QStandardItemModel *model = new QStandardItemModel();
+    QStandardItem*** list = user->scheduleDetail();
+    bool** matrix;
+
+    for (int i = 0; i < 7; i++)
+        for (int j = 0; j < 15; j++)
+            model->setItem(j, i, list[i][j]);
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Monday"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Tuesday"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Wednesday"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Thursday"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Friday"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Saturday"));
+    model->setHeaderData(6, Qt::Horizontal, QObject::tr("Sunday"));
+
+    ui->tableView->setModel(model);
+
+    for (int i = 0; i < 7; i++)
+        ui->tableView->horizontalHeader()->setResizeMode(i, QHeaderView::Stretch);
+    for (int i = 0; i < 15; i++)
+        ui->tableView->verticalHeader()->setResizeMode(i, QHeaderView::Stretch);
+
+
+    matrix = user->scheduleMatrix();
+    for (int i = 0; i < 7; i++)
+    {
+        int st = 0, ed = 0;
+        while (ed < 15)
+        {
+            while (!matrix[i][st] && st < 15) st++;
+            ed = st;
+            while (matrix[i][ed] && ed < 15) ed++;
+            if (ed >= 15) ui->tableView->setSpan(st, i, 15 - st, 1);
+            else ui->tableView->setSpan(st, i, ed - st, 1);
+            qDebug() << ed;
+            st++;
+        }
+    }
+    //ui->tableView->setSpan(1,0,2,1);
+
+//    for (int i = 0; i < model->rowCount(); i++)
+//    {
+//        model->item(i, 0)->setEditable(false);
+//    }
+//    model->item(0, 1)->setEditable(false);
+//    model->item(1, 1)->setEditable(false);
+
+//    ui->tableView->setRowHeight(0, 150);
+//    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
+
 
 }
 
 void MainWindow::loadElective()
 {
-
+    QMessageBox::information(0, "User", "Elective");
 }
 
 void MainWindow::loadPlan()

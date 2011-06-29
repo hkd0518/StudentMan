@@ -24,6 +24,9 @@ public:
     virtual void loadInfoWidget(InfoWidget*);   //包括个人信息和功能列表
 
     virtual void loadCurriculumSchedule(QTableView*);   //课程表
+    virtual QStandardItem*** scheduleDetail();
+    virtual bool** scheduleMatrix();
+
     virtual void loadElective(QTableView*); //选课
 
     virtual void loadScore(QTableView*);    //成绩查询

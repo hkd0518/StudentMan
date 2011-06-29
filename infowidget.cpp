@@ -91,4 +91,8 @@ void InfoWidget::dispatchView(QTreeWidgetItem *item, int index)
         emit chgPwd();
     else if (item->text(0) == tr("View Results"))
         emit loadScore();
+    else if (item->text(0) == tr("View Class Schedule"))
+        emit loadCurriculumSchedule();
+    else if (item->text(0) == tr("Elective"))
+        emit loadElective();
 }

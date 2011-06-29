@@ -25,13 +25,6 @@ bool studentsql::connectToDB()
     db.setDatabaseName(dbInfo.DBName);
     db.setUserName(dbInfo.userName);
     db.setPassword(dbInfo.password);
-//    qDebug() << "ODBC driver valid?" << db.isValid();
-
-//        qDebug() << db.hostName();
-//        qDebug() << db.databaseName();
-//        qDebug() << db.userName();
-//        qDebug() << db.password();
-//        qDebug() << db.driverName();
 
     if (db.open())
     {

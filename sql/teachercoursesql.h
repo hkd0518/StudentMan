@@ -1,12 +1,15 @@
 #ifndef TEACHERCOURSESQL_H
 #define TEACHERCOURSESQL_H
 
+#include "utility.h"
+#include <QSqlDatabase>
+
 class QString;
 
 class teacherCourseSql
 {
 public:
-    teacherCourseSql();
+    teacherCourseSql(DBInfo);
 
     int getNum(QString teacherId ,QString courseId);
     QString getTimetable (QString teacherId ,QString courseId);
@@ -24,6 +27,13 @@ public:
 
     int getAvailCourseNum(QString teacherId);
     QString getAvailCourseId(int num,QString teacherId);
+
+    bool connectToDB();
+    void closeConnection();
+
+private:
+    DBInfo dbInfo;
+    QSqlDatabase db;
 };
 
 #endif // TEACHERCOURSESQL_H
