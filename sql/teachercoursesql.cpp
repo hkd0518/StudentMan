@@ -95,7 +95,7 @@ int teacherCourseSql::getTableNum(QString teacherId){
     return num;
 }
 
-QString teacherCourseSql::getCourseIdFronTable(int num, QString teacherId){
+QString teacherCourseSql::getCourseIdFromTable(int num, QString teacherId){
     QSqlQuery query;
     query.exec("SELECT course_id FROM teacher_course WHERE teacher_id ='"+teacherId+"'");
     QString s= "";

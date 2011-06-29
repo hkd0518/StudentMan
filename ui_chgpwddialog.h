@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'chgpwddialog.ui'
 **
-** Created: Wed Jun 29 21:39:51 2011
+** Created: Thu Jun 30 06:45:10 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -63,6 +63,7 @@ public:
 
         oldPwd = new QLineEdit(ChgPwdDialog);
         oldPwd->setObjectName(QString::fromUtf8("oldPwd"));
+        oldPwd->setEchoMode(QLineEdit::Password);
 
         horizontalLayout->addWidget(oldPwd);
 
@@ -82,6 +83,7 @@ public:
 
         newPwd = new QLineEdit(ChgPwdDialog);
         newPwd->setObjectName(QString::fromUtf8("newPwd"));
+        newPwd->setEchoMode(QLineEdit::Password);
 
         horizontalLayout_2->addWidget(newPwd);
 
@@ -101,6 +103,7 @@ public:
 
         confirmPwd = new QLineEdit(ChgPwdDialog);
         confirmPwd->setObjectName(QString::fromUtf8("confirmPwd"));
+        confirmPwd->setEchoMode(QLineEdit::Password);
 
         horizontalLayout_3->addWidget(confirmPwd);
 

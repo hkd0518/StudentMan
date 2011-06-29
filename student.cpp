@@ -22,6 +22,7 @@ Student::Student(DBInfo dbInfo)
     scSql = new studentCourseSql(dbInfo);
     cSql = new coursesql(dbInfo);
     tcSql = new teacherCourseSql(dbInfo);
+    tSql = new teachersql(dbInfo);
 }
 
 Student::~Student()

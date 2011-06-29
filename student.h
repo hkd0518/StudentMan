@@ -42,13 +42,14 @@ public:
     virtual QList< QList<QStandardItem *> > scoreDetail();
 
     virtual void loadProfile(QTableView*);  //个人信息
-
+    virtual void saveProfileChange(QStandardItem*);
     virtual QList<QStandardItem *> profileHeader();    //个人信息属性列表
     virtual QList<QStandardItem *> profileDetail();
 
+
     virtual void chgPwd(QString,QString);
 
-    virtual void saveProfileChange(QStandardItem*);
+
 
 
 protected:

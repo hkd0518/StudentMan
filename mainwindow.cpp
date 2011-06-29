@@ -84,7 +84,7 @@ void MainWindow::login()
 //        loginDlg->setWindowIcon(QIcon(":/resources/icon/login.png"));
 //        status = loginDlg->exec();
 
-        user = new Student(dbInfo);
+        user = new Administrator(dbInfo);
 //        if (loginDlg->isStuChecked())
 //            user = new Student(dbInfo);
 //        else if (loginDlg->isTeaChecked())
@@ -98,7 +98,7 @@ void MainWindow::login()
 //            return;
 //        }
 
-        user->login("08382005", "123", dbInfo);
+        user->login("T00000003", "123", dbInfo);
         initInfo();
 //        if (user->login(loginDlg->getLoginNumber(), loginDlg->getPassword(), dbInfo))
 //            initInfo(); //初始化界面

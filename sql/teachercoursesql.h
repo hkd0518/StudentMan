@@ -20,7 +20,7 @@ public:
     bool delTeacherCourse(QString teacherId ,QString courseId);
 
     int getTableNum(QString teacherId);
-    QString getCourseIdFronTable(int num,QString teacherId);
+    QString getCourseIdFromTable(int num,QString teacherId);
     QString getTimeFromTable(int num,QString teacherId);
     QString getAddrFromTable(int num,QString teacherId);
     int getNumFromTable(int num,QString teacherId);

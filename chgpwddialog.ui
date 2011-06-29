@@ -37,7 +37,11 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLineEdit" name="oldPwd"/>
+      <widget class="QLineEdit" name="oldPwd">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -64,7 +68,11 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLineEdit" name="newPwd"/>
+      <widget class="QLineEdit" name="newPwd">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -91,7 +99,11 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLineEdit" name="confirmPwd"/>
+      <widget class="QLineEdit" name="confirmPwd">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
