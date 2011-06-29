@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Wed Jun 29 21:42:58 2011
+** Created: Thu Jun 30 06:01:13 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -43,6 +43,7 @@ static const uint qt_meta_data_MainWindow[] = {
      132,   11,   11,   11, 0x0a,
      143,   11,   11,   11, 0x0a,
      155,   11,   11,   11, 0x0a,
+     189,   11,   11,   11, 0x0a,
 
        0        // eod
 };
@@ -53,6 +54,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "loadScore()\0loadProfile()\0loadRecord()\0"
     "loadStatic()\0loadPlan()\0changePwd()\0"
     "saveProfileChange(QStandardItem*)\0"
+    "saveElectiveChange(QStandardItem*)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -96,9 +98,10 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 9: loadPlan(); break;
         case 10: changePwd(); break;
         case 11: saveProfileChange((*reinterpret_cast< QStandardItem*(*)>(_a[1]))); break;
+        case 12: saveElectiveChange((*reinterpret_cast< QStandardItem*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 12;
+        _id -= 13;
     }
     return _id;
 }

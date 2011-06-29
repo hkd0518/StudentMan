@@ -15,6 +15,7 @@ INPUT(
 ./debug\studentcoursesql.o
 ./debug\sql.o
 ./debug\coursesql.o
+./debug\MyTableView.o
 ./debug\moc_mainwindow.o
 ./debug\moc_dbinfodialog.o
 ./debug\moc_infowidget.o

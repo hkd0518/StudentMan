@@ -7,12 +7,14 @@
 #include "sql/studentcoursesql.h"
 #include "sql/coursesql.h"
 #include "sql/teachercoursesql.h"
+#include "sql/teachersql.h"
 
 #include <QList>
 
 class QTreeWidget;
 class QStringList;
 class QStandardItem;
+class QStandardItemModel;
 
 class Student : public User
 {
@@ -33,6 +35,8 @@ public:
     virtual bool** scheduleMatrix();
 
     virtual void loadElective(QTableView*); //选课
+    virtual QList< QList<QStandardItem *> > electiveDetail();
+    virtual void saveElectiveChange(QStandardItem*,QStandardItemModel*);
 
     virtual void loadScore(QTableView*);    //成绩查询
     virtual QList< QList<QStandardItem *> > scoreDetail();
@@ -57,6 +61,7 @@ private:
     studentCourseSql *scSql;
     coursesql *cSql;
     teacherCourseSql *tcSql;
+    teachersql *tSql;
 
 };
 

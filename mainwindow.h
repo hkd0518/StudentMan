@@ -43,6 +43,7 @@ public slots:
     void changePwd();
 
     void saveProfileChange(QStandardItem*);
+    void saveElectiveChange(QStandardItem*);
 
 private:
     void loadUserInfo();

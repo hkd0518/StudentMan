@@ -185,6 +185,76 @@ void Student::loadElective(QTableView * tableView)
 
 }
 
+QList< QList<QStandardItem *> > Student::electiveDetail()
+{
+    scSql->connectToDB();
+
+    QList< QList<QStandardItem *> > list;
+    int num1 = scSql->getTableNum(userInfo.number);
+    int num2 = scSql->getAvailCourseNum(userInfo.number);
+    //qDebug() << num;
+
+
+    for (int i = 1; i <= num1; i++)
+    {
+        QList<QStandardItem *> tmp;
+
+        tmp.append(new QStandardItem("YES"));
+        tmp.append(new QStandardItem(scSql->getCourseIdFromTable(i, userInfo.number)));
+        tmp.append(new QStandardItem(cSql->getName(scSql->getCourseIdFromTable(i, userInfo.number))));
+        //qDebug() << cSql->getName(scSql->getAvailCourseId(i, userInfo.number));
+        tmp.append(new QStandardItem(scSql->getTeacherIdFromTable(i, userInfo.number)));
+        tmp.append(new QStandardItem(tSql->getName(scSql->getTeacherIdFromTable(i, userInfo.number))));
+        //qDebug() << tSql->getName(scSql->getAvailTeacherId(i, userInfo.number));
+        //qDebug() << tmp.at(1)->text();
+        tmp.append(new QStandardItem(tcSql->getCourseAddr(scSql->getTeacherIdFromTable(i, userInfo.number),
+                                                          scSql->getCourseIdFromTable(i, userInfo.number))));
+        //qDebug() << scSql->getFinalScoreFromTable(i, userInfo.number);
+
+        list.append(tmp);
+    }
+
+    for (int i = 1; i <= num2; i++)
+    {
+        QList<QStandardItem *> tmp;
+
+        tmp.append(new QStandardItem("NO"));
+        tmp.append(new QStandardItem(scSql->getAvailCourseId(i, userInfo.number)));
+        tmp.append(new QStandardItem(cSql->getName(scSql->getAvailCourseId(i, userInfo.number))));
+        //qDebug() << cSql->getName(scSql->getAvailCourseId(i, userInfo.number));
+        tmp.append(new QStandardItem(scSql->getAvailTeacherId(i, userInfo.number)));
+        tmp.append(new QStandardItem(tSql->getName(scSql->getAvailTeacherId(i, userInfo.number))));
+        //qDebug() << tSql->getName(scSql->getAvailTeacherId(i, userInfo.number));
+        //qDebug() << tmp.at(1)->text();
+        tmp.append(new QStandardItem(tcSql->getCourseAddr(scSql->getAvailTeacherId(i, userInfo.number),
+                                                          scSql->getAvailCourseId(i, userInfo.number))));
+        //qDebug() << scSql->getFinalScoreFromTable(i, userInfo.number);
+
+        list.append(tmp);
+    }
+
+    scSql->closeConnection();
+
+    return list;
+}
+
+void Student::saveElectiveChange(QStandardItem* item, QStandardItemModel *model)
+{
+    if (item->column() != 0)
+        return;
+
+    scSql->connectToDB();
+
+    if (item->text() == "YES" || item->text() == "yes")
+        scSql->addStudentCourse(userInfo.number, model->item(item->row(), 3)->text(),
+                                model->item(item->row(), 1)->text());
+    if (item->text() == "NO" || item->text() == "no")
+        scSql->delStudentCourse(userInfo.number, model->item(item->row(), 3)->text(),
+                                model->item(item->row(), 1)->text());
+
+    scSql->closeConnection();
+}
+
 void Student::loadInfoWidget(InfoWidget* infoWidget)
 {
 

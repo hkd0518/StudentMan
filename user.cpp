@@ -37,6 +37,16 @@ void User::loadElective(QTableView * tableView)
 
 }
 
+QList< QList<QStandardItem *> > User::electiveDetail()
+{
+
+}
+
+void User::saveElectiveChange(QStandardItem* item , QStandardItemModel *model)
+{
+
+}
+
 void User::loadInfoWidget(InfoWidget * infoWidget)
 {
 

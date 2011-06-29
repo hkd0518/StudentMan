@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     sql/studentsql.cpp \
     sql/studentcoursesql.cpp \
     sql/sql.cpp \
-    sql/coursesql.cpp
+    sql/coursesql.cpp \
+    MyTableView.cpp
 
 HEADERS  += mainwindow.h \
     student.h \
@@ -44,7 +45,8 @@ HEADERS  += mainwindow.h \
     sql/studentsql.h \
     sql/studentcoursesql.h \
     sql/sql.h \
-    sql/coursesql.h
+    sql/coursesql.h \
+    MyTableView.h
 
 FORMS    += mainwindow.ui \
     dbinfodialog.ui \

@@ -1,12 +1,45 @@
 #include "teachersql.h"
+#include "utility.h"
+
+#include <QString>
 #include <QSqlQuery>
 #include <QVariant>
 #include <QString>
 #include <QPixmap>
+#include <QDebug>
+#include <QSqlError>
+#include <QMessageBox>
+#include <QSqlDatabase>
 
 
-teachersql::teachersql(){
+teachersql::teachersql(DBInfo dbInfo){
+    this->dbInfo = dbInfo;
+}
 
+bool teachersql::connectToDB()
+{
+
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setHostName(dbInfo.hostName);
+    db.setDatabaseName(dbInfo.DBName);
+    db.setUserName(dbInfo.userName);
+    db.setPassword(dbInfo.password);
+
+    if (db.open())
+    {
+        qDebug() << "Connect to DB Successfully!";
+        return true;
+    }
+    else
+    {
+        QMessageBox::warning(0, QObject::tr("Database"), db.lastError().text()+" studentsql");
+        return false;
+    }
+}
+
+void teachersql::closeConnection()
+{
+    db.close();
 }
 
 QString teachersql::getAddr(QString id){

@@ -9,6 +9,7 @@
 #include "student.h"
 #include "teacher.h"
 #include "administrator.h"
+#include "MyTableView.h"
 
 #include <QAction>
 #include <QDebug>
@@ -125,6 +126,7 @@ void MainWindow::reset()
 void MainWindow::loadCurriculumSchedule()
 {
     //QMessageBox::information(0, "User", "Schedule");
+    ui->tableView->reset();
 
     QStandardItemModel *model = new QStandardItemModel();
     QStandardItem*** list = user->scheduleDetail();
@@ -165,17 +167,7 @@ void MainWindow::loadCurriculumSchedule()
             st++;
         }
     }
-    //ui->tableView->setSpan(1,0,2,1);
-
-//    for (int i = 0; i < model->rowCount(); i++)
-//    {
-//        model->item(i, 0)->setEditable(false);
-//    }
-//    model->item(0, 1)->setEditable(false);
-//    model->item(1, 1)->setEditable(false);
-
-//    ui->tableView->setRowHeight(0, 150);
-//    ui->tableView->verticalHeader()->hide();
+    ui->tableView->verticalHeader()->setVisible(true);
     ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
 
 
@@ -183,7 +175,47 @@ void MainWindow::loadCurriculumSchedule()
 
 void MainWindow::loadElective()
 {
-    QMessageBox::information(0, "User", "Elective");
+    //QMessageBox::information(0, "User", "Elective");
+    ui->tableView->reset();
+
+    QStandardItemModel *model = new QStandardItemModel();
+    //MyStandardItemModel *model = new MyStandardItemModel();
+    MyItemDelegate *delegate = new MyItemDelegate();
+
+    connect(model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(saveElectiveChange(QStandardItem*)));
+
+    QList< QList<QStandardItem *> > list = user->electiveDetail();
+
+    for (int i = 0; i < list.count(); i++)
+    {
+        model->insertRow(i, list.at(i));
+        qDebug() << list.at(i).at(1)->text();
+    }
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Status"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Course ID"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Course Name"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Teacher ID"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Teacher Name"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Course Addr."));
+
+    ui->tableView->setModel(model);
+    //ui->tableView->setItemDelegate(delegate);
+
+    for (int i = 0; i < model->columnCount(); i++)
+        ui->tableView->horizontalHeader()->setResizeMode(i, QHeaderView::Stretch);
+    //ui->tableView->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
+    ui->tableView->resizeColumnToContents(1);
+    ui->tableView->resizeColumnToContents(2);
+//    ui->tableView->setColumnWidth(2, 100);
+//    ui->tableView->setColumnWidth(3, 100);
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
+}
+
+void MainWindow::saveElectiveChange(QStandardItem *item)
+{
+    user->saveElectiveChange(item, (QStandardItemModel*)ui->tableView->model());
 }
 
 void MainWindow::loadPlan()
@@ -194,6 +226,7 @@ void MainWindow::loadPlan()
 void MainWindow::loadProfile()
 {
     //ui->tableView->reset();
+    ui->tableView->reset();
 
     QStandardItemModel *model = new QStandardItemModel();
 
@@ -211,7 +244,7 @@ void MainWindow::loadProfile()
     model->item(0, 1)->setEditable(false);
     model->item(1, 1)->setEditable(false);
 
-    ui->tableView->setRowHeight(0, 150);
+    //ui->tableView->setRowHeight(0, 150);
     ui->tableView->verticalHeader()->hide();
     ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
     ui->tableView->setModel(model);
@@ -230,6 +263,7 @@ void MainWindow::loadRecord()
 void MainWindow::loadScore()
 {
     //QMessageBox::information(0, "wer", "wer");
+    ui->tableView->reset();
 
     QStandardItemModel *model = new QStandardItemModel();
 
@@ -251,7 +285,7 @@ void MainWindow::loadScore()
 
     ui->tableView->setModel(model);
 
-    ui->tableView->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
     ui->tableView->resizeColumnToContents(1);
     ui->tableView->resizeColumnToContents(2);
 //    ui->tableView->setColumnWidth(2, 100);

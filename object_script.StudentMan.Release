@@ -15,6 +15,7 @@ INPUT(
 ./release\studentcoursesql.o
 ./release\sql.o
 ./release\coursesql.o
+./release\MyTableView.o
 ./release\moc_mainwindow.o
 ./release\moc_dbinfodialog.o
 ./release\moc_infowidget.o

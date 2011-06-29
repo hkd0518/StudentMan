@@ -1,13 +1,16 @@
 #ifndef TEACHERSQL_H
 #define TEACHERSQL_H
 
+#include "utility.h"
+#include <QSqlDatabase>
+
 class QString;
 class QPixmap;
 
 class teachersql
 {
 public:
-    teachersql(); 
+    teachersql(DBInfo);
     QString getPwd(QString id);
     bool changePwd(QString pwd,QString id);
     //QString getId();
@@ -44,6 +47,12 @@ public:
 
     int getTeacherNum();
     QString getIdFromNum(int num);
+
+    bool connectToDB();
+    void closeConnection();
+private:
+    DBInfo dbInfo;
+    QSqlDatabase db;
 };
 
 #endif // TEACHERSQL_H

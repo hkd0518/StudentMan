@@ -10,6 +10,7 @@ class QString;
 class QTableView;
 class QStringList;
 class QStandardItem;
+class QStandardItemModel;
 
 class User
 {
@@ -28,6 +29,8 @@ public:
     virtual bool** scheduleMatrix();
 
     virtual void loadElective(QTableView*); //选课
+    virtual QList< QList<QStandardItem *> > electiveDetail();
+    virtual void saveElectiveChange(QStandardItem*, QStandardItemModel*);
 
     virtual void loadScore(QTableView*);    //成绩查询
     virtual QList< QList<QStandardItem *> > scoreDetail();
