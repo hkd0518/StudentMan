@@ -95,4 +95,6 @@ void InfoWidget::dispatchView(QTreeWidgetItem *item, int index)
         emit loadCurriculumSchedule();
     else if (item->text(0) == tr("Elective"))
         emit loadElective();
+    else if (item->text(0) == tr("Plan Class Schedule"))
+        emit loadPlan();
 }

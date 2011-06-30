@@ -35,6 +35,10 @@ public:
     virtual QList<QStandardItem *> profileDetail();
     virtual void saveProfileChange(QStandardItem*);
 
+    virtual QList<QStandardItem *> courseList();
+    virtual QList<QStandardItem *> courseIdList();
+    virtual void savePlanChange(QStandardItem*, QStandardItemModel*);
+
     virtual void chgPwd(QString,QString);
 
 

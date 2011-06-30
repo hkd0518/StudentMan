@@ -196,6 +196,67 @@ void Administrator::saveProfileChange(QStandardItem* item)
     tSql->closeConnection();
 }
 
+QList<QStandardItem *> Administrator::courseList()
+{
+    QList<QStandardItem*> list;
+
+    cSql->connectToDB();
+
+    int num = cSql->getCourseNum();
+
+    for (int i = 1; i <= num; i++)
+    {
+        list.append(new QStandardItem(cSql->getName(cSql->getIdFromNum(i))));
+    }
+
+    cSql->closeConnection();
+
+    return list;
+}
+
+QList<QStandardItem *> Administrator::courseIdList()
+{
+    QList<QStandardItem*> list;
+
+    cSql->connectToDB();
+
+    int num = cSql->getCourseNum();
+
+    for (int i = 1; i <= num; i++)
+    {
+        list.append(new QStandardItem(cSql->getIdFromNum(i)));
+    }
+
+    cSql->closeConnection();
+
+    return list;
+}
+
+void Administrator::savePlanChange(QStandardItem* item, QStandardItemModel* model)
+{
+    if (item->column() == 0 || item->column() == 1)
+        return;
+
+    tcSql->connectToDB();
+
+    switch (item->row())
+    {
+    case 2: //teacher
+        tcSql->addTeacherCourse(item->text(), model->item(item->row(), 0)->text());
+        break;
+    case 3: //time
+        tcSql->changeTeacherCourse(item->text(), model->item(item->row(), 4)->text(), 0,
+                                   model->item(item->row(), 2)->text(),model->item(item->row(), 0)->text());
+        break;
+    case 4: //addr
+        tcSql->changeTeacherCourse(model->item(item->row(), 3)->text(), item->text(), 0,
+                                   model->item(item->row(), 2)->text(),model->item(item->row(), 0)->text());
+        break;
+    }
+
+    tcSql->closeConnection();
+}
+
 void Administrator::loadScore(QTableView * tableView)
 {
 

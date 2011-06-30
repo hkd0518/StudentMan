@@ -28,6 +28,10 @@ public:
     virtual QStandardItem*** scheduleDetail();
     virtual bool** scheduleMatrix();
 
+    virtual QList<QStandardItem *> courseList();
+    virtual QList<QStandardItem *> courseIdList();
+    virtual void savePlanChange(QStandardItem*, QStandardItemModel*);
+
     virtual void loadElective(QTableView*); //选课
     virtual QList< QList<QStandardItem *> > electiveDetail();
     virtual void saveElectiveChange(QStandardItem*, QStandardItemModel*);

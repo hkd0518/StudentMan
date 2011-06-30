@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->infoWidget, SIGNAL(loadScore()), this, SLOT(loadScore()));
     connect(ui->infoWidget, SIGNAL(loadCurriculumSchedule()), this, SLOT(loadCurriculumSchedule()));
     connect(ui->infoWidget, SIGNAL(loadElective()), this, SLOT(loadElective()));
+    connect(ui->infoWidget, SIGNAL(loadPlan()), this, SLOT(loadPlan()));
     connect(ui->infoWidget, SIGNAL(chgPwd()), this, SLOT(changePwd()));
 
     dbInfo.hostName = "localhost";
@@ -220,7 +221,42 @@ void MainWindow::saveElectiveChange(QStandardItem *item)
 
 void MainWindow::loadPlan()
 {
+    //QMessageBox::information(0, "User", "Schedule");
+    ui->tableView->reset();
 
+    QStandardItemModel *model = new QStandardItemModel();
+    int  num = user->courseList().count();
+
+
+    connect(model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(savePlanChange(QStandardItem*)));
+
+    model->insertColumn(0, user->courseIdList());
+    model->insertColumn(1, user->courseList());
+    //model->insertColumn(1, user->profileDetail());
+    for (int i = 0; i < num; i++)
+        for (int j = 2; j < 5; j++)
+            model->setItem(i, j, new QStandardItem());
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Course ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Course Name"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Teacher"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Time"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Address"));
+
+    for (int i = 0; i < model->rowCount(); i++)
+    {
+        model->item(i, 0)->setEditable(false);
+    }
+
+    //ui->tableView->setRowHeight(0, 150);
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->tableView->setModel(model);
+}
+
+void MainWindow::savePlanChange(QStandardItem *item)
+{
+    user->savePlanChange(item, (QStandardItemModel*)ui->tableView->model());
 }
 
 void MainWindow::loadProfile()

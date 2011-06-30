@@ -67,6 +67,21 @@ QList<QStandardItem*> User::profileDetail()
 
 }
 
+QList<QStandardItem *> User::courseList()
+{
+
+}
+
+QList<QStandardItem *> User::courseIdList()
+{
+
+}
+
+void User::savePlanChange(QStandardItem*, QStandardItemModel*)
+{
+
+}
+
 void User::saveProfileChange(QStandardItem *item)
 {
 
