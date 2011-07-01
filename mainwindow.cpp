@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     //Init
-    isSqlSetted = true;
+    isSqlSetted = false;
 
     //status tips
     ui->actionDataBase_Info->setStatusTip(tr("Set Database Info."));
@@ -42,14 +42,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->infoWidget, SIGNAL(loadCurriculumSchedule()), this, SLOT(loadCurriculumSchedule()));
     connect(ui->infoWidget, SIGNAL(loadElective()), this, SLOT(loadElective()));
     connect(ui->infoWidget, SIGNAL(loadPlan()), this, SLOT(loadPlan()));
+    connect(ui->infoWidget, SIGNAL(loadRecord()), this, SLOT(loadRecord()));
     connect(ui->infoWidget, SIGNAL(chgPwd()), this, SLOT(changePwd()));
 
-    dbInfo.hostName = "localhost";
-    dbInfo.DBName = "Handin";
-    dbInfo.userName = "hkd";
-    dbInfo.password = "19900518";
+//    dbInfo.hostName = "localhost";
+//    dbInfo.DBName = "Handin";
+//    dbInfo.userName = "hkd";
+//    dbInfo.password = "19900518";
 
-    login();
+    //login();
 
 }
 
@@ -81,30 +82,30 @@ void MainWindow::login()
     {
         int status;
 
-//        LoginDialog *loginDlg = new LoginDialog;
-//        loginDlg->setWindowIcon(QIcon(":/resources/icon/login.png"));
-//        status = loginDlg->exec();
+        LoginDialog *loginDlg = new LoginDialog;
+        loginDlg->setWindowIcon(QIcon(":/resources/icon/login.png"));
+        status = loginDlg->exec();
 
-        user = new Administrator(dbInfo);
-//        if (loginDlg->isStuChecked())
-//            user = new Student(dbInfo);
-//        else if (loginDlg->isTeaChecked())
-//                user = new Teacher(dbInfo);
-//        else if (loginDlg->isAdmChecked())
-//                user = new Administrator(dbInfo);
-//        else
-//        {
-//            if (status == QDialog::Accepted)
-//                QMessageBox::warning(this, tr("ERROR"), tr("ERROR occurs while creating user object!"));
-//            return;
-//        }
+        //user = new Teacher(dbInfo);
+        if (loginDlg->isStuChecked())
+            user = new Student(dbInfo);
+        else if (loginDlg->isTeaChecked())
+                user = new Teacher(dbInfo);
+        else if (loginDlg->isAdmChecked())
+                user = new Administrator(dbInfo);
+        else
+        {
+            if (status == QDialog::Accepted)
+                QMessageBox::warning(this, tr("ERROR"), tr("ERROR occurs while creating user object!"));
+            return;
+        }
 
-        user->login("T00000003", "123", dbInfo);
-        initInfo();
-//        if (user->login(loginDlg->getLoginNumber(), loginDlg->getPassword(), dbInfo))
-//            initInfo(); //初始化界面
+//        user->login("T00000001", "123", dbInfo);
+//        initInfo();
+        if (user->login(loginDlg->getLoginNumber(), loginDlg->getPassword(), dbInfo))
+            initInfo(); //初始化界面
 
-        //delete loginDlg;
+        delete loginDlg;
     }
     else
     {
@@ -293,7 +294,40 @@ void MainWindow::saveProfileChange(QStandardItem *item)
 
 void MainWindow::loadRecord()
 {
+    //QMessageBox::information(0, "User", "Schedule");
+    ui->tableView->reset();
 
+    QStandardItemModel *model = new QStandardItemModel();
+    int  num = user->recordList().count();
+
+    model->insertColumn(0, user->recordIdList());
+    model->insertColumn(1, user->recordList());
+    //model->insertColumn(1, user->profileDetail());
+    for (int i = 0; i < num; i++)
+        for (int j = 2; j < 4; j++)
+            model->setItem(i, j, new QStandardItem());
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Student ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Student Name"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Mid Score"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Final Score"));
+
+    for (int i = 0; i < model->rowCount(); i++)
+    {
+        model->item(i, 0)->setEditable(false);
+    }
+
+    connect(model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(saveRecordChange(QStandardItem*)));
+
+    //ui->tableView->setRowHeight(0, 150);
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->tableView->setModel(model);
+}
+
+void MainWindow::saveRecordChange(QStandardItem *item)
+{
+    user->saveRecordChange(item, (QStandardItemModel*)ui->tableView->model());
 }
 
 void MainWindow::loadScore()

@@ -45,6 +45,7 @@ public slots:
     void saveProfileChange(QStandardItem*);
     void saveElectiveChange(QStandardItem*);
     void savePlanChange(QStandardItem*);
+    void saveRecordChange(QStandardItem*);
 
 private:
     void loadUserInfo();

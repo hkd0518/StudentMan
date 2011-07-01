@@ -31,6 +31,10 @@ public:
     virtual QStandardItem*** scheduleDetail();
     virtual bool** scheduleMatrix();
 
+    virtual QList<QStandardItem *> recordList();
+    virtual QList<QStandardItem *> recordIdList();
+    virtual void saveRecordChange(QStandardItem*, QStandardItemModel*);
+
     virtual void loadElective(QTableView*); //选课
     virtual void loadScore(QTableView*);    //成绩查询
 

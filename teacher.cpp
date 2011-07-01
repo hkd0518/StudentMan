@@ -286,6 +286,67 @@ void Teacher::loadRecord()
 
 }
 
+QList<QStandardItem *> Teacher::recordList()
+{
+    QList<QStandardItem*> list;
+
+    scSql->connectToDB();
+
+    QString cId = tcSql->getCourseIdFromTable(1, userInfo.number);
+    int num = scSql->getTeachingStudentNum(userInfo.number, cId);
+
+    for (int i = 1; i <= num; i++)
+    {
+        list.append(new QStandardItem(sql->getName(scSql->getTeachingStudentId(i, userInfo.number, cId))));
+    }
+
+    scSql->closeConnection();
+
+    return list;
+}
+
+QList<QStandardItem *> Teacher::recordIdList()
+{
+    QList<QStandardItem*> list;
+
+    scSql->connectToDB();
+
+    QString cId = tcSql->getCourseIdFromTable(1, userInfo.number);
+    int num = scSql->getTeachingStudentNum(userInfo.number, cId);
+
+    for (int i = 1; i <= num; i++)
+    {
+        list.append(new QStandardItem(scSql->getTeachingStudentId(i, userInfo.number, cId)));
+    }
+
+    scSql->closeConnection();
+
+    return list;
+}
+
+void Teacher::saveRecordChange(QStandardItem* item , QStandardItemModel *model)
+{
+    if (item->column() == 0 || item->column() == 1)
+        return;
+
+    tcSql->connectToDB();
+
+    QString cId(tcSql->getCourseIdFromTable(1, userInfo.number));
+
+    switch (item->column())
+    {
+    case 2://mid
+        scSql->changeMidScore(item->text().toInt(), model->item(item->row(), 0)->text(), userInfo.number, cId);
+        qDebug() << item->text();
+        break;
+    case 3://final
+        scSql->changeFinalScore(item->text().toInt(), model->item(item->row(), 0)->text(), userInfo.number, cId);
+        break;
+    }
+
+    tcSql->closeConnection();
+}
+
 void Teacher::loadStatic()
 {
 

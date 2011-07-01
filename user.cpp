@@ -77,6 +77,21 @@ QList<QStandardItem *> User::courseIdList()
 
 }
 
+QList<QStandardItem *> User::recordList()
+{
+
+}
+
+QList<QStandardItem *> User::recordIdList()
+{
+
+}
+
+void User::saveRecordChange(QStandardItem* item , QStandardItemModel *model)
+{
+
+}
+
 void User::savePlanChange(QStandardItem*, QStandardItemModel*)
 {
 
